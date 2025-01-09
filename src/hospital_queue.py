@@ -11,18 +11,20 @@ class HospitalQueue:
                 "priority": priority
             }
 
-            if patient_dict["priority"] == 1:
-                last_priority_patient = -1
+            if self.size() > 0:
+                insert_at = -1
                 for index in range(self.size()):
-                    if self.queue[index]["priority"] == 1:
-                        last_priority_patient = index
+                    if patient_dict['priority'] > self.queue[index]['priority']:
+                        insert_at = index
+                        break
+                    elif patient_dict['priority'] == self.queue[index]['priority']:
+                        insert_at = index + 1
+                        break
 
-                if last_priority_patient != -1:
-                    self.queue.insert(last_priority_patient + 1, patient_dict)
-                else:
-                    self.queue.insert(0, patient_dict)
+                self.queue.insert(insert_at, patient_dict)
             else:
                 self.queue.append(patient_dict)
+
             return patient_dict
         else:
             return "Error: The queue is full!"
@@ -60,3 +62,13 @@ class HospitalQueue:
 
     def isEmpty(self):
         return len(self.queue) == 0
+
+if __name__ == "__main__":
+    queue = HospitalQueue()
+    queue.enqueue(1, 0)
+    queue.enqueue(2, 1)
+    queue.enqueue(3, 3)
+    queue.enqueue(4, 0)
+    queue.enqueue(5, 2)
+    queue.enqueue(6, 6)
+    print(f"Queue: {queue.printQueue()}")
