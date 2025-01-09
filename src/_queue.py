@@ -23,7 +23,7 @@ class HospitalQueue:
                     self.queue.insert(0, patient_dict)
             else:
                 self.queue.append(patient_dict)
-            return patient
+            return patient_dict
         else:
             return "Error: The queue is full!"
 
