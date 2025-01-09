@@ -41,6 +41,7 @@ class HospitalQueue:
                     else:
                         index += 1
             else:
+                self.queue.pop(0)
                 return self.queue[0].number
         else:
             return "Error the queue is empty!"
@@ -53,10 +54,30 @@ class HospitalQueue:
         return self.max
 
     def front(self):
-        pass
+        if not self.isEmpty:
+            if self.check_priority_patients:
+                for index in range(0, len(self.queue)):
+                    patient = self.queue[index]
+                    if patient.priority == 1:
+                        return patient.number
+            else:
+                return self.queue[0].number
+        else:
+            return "Error the queue is empty!"
+
 
     def rear(self):
-        pass
+        if not self.isEmpty:
+            if self.check_priority_patients:
+                for index in reversed(range(0, len(self.queue))):
+                    patient = self.queue[index]
+                    if patient.priority == 0:
+                        return patient.number
+            else:
+                return self.queue[-1].number
+        else:
+            return "Error the queue is empty!"
+
 
     def isFull(self):
         return True if len(self.queue) == self.max else False
