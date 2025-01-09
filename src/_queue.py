@@ -10,6 +10,19 @@ class HospitalQueue:
             "priority": self.priority
         }
 
+    def check_priority_patients(self):
+        if not self.isEmpty:
+            for index in range(0, len(self.queue)):
+                last_priority_patient = None
+                patient = self.queue[index]
+                if patient.priority == 1:
+                    last_priority_patient = self.queue[index].number
+                else:
+                    index += 1
+
+            return True if last_priority_patient else False
+
+
     def enqueue(self):
         if not self.isFull:
             self.queue.append(self.patient_dict)
@@ -19,7 +32,14 @@ class HospitalQueue:
         
     def dequeue(self):
         if not self.isEmpty:
-            pass
+            #index = 0
+            for index in range(0, len(self.queue)):
+                patient = self.queue[index]
+                if patient.priority == 1:
+                    self.queue.pop(index)
+                    return patient.number
+                else:
+                    index += 1
 
     def size(self):
         return len(self.queue)
