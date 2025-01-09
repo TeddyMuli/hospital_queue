@@ -1,51 +1,44 @@
 #!/usr/bin/python3
 class HospitalQueue:
-    def __init__(self, patient, priority):
-        self.priority = priority
-        self.patient = patient
+    def __init__(self):
         self.queue = []
         self.max = 10
-        self.patient_dict = {
-            "number": self.patient,
-            "priority": self.priority
-        }
 
     def check_priority_patients(self):
-        if not self.isEmpty:
+        if not self.isEmpty():
             for index in range(0, len(self.queue)):
                 last_priority_patient = None
                 patient = self.queue[index]
-                if patient.priority == 1:
-                    last_priority_patient = self.queue[index].number
-                else:
-                    index += 1
+                if patient["priority"] == 1:
+                    last_priority_patient = patient["number"]
+            return last_priority_patient is not None
+        return False
 
-            return True if last_priority_patient else False
+    def enqueue(self, patient, priority):
+        if not self.isFull():
+            patient_dict = {
+                "number": patient,
+                "priority": priority
+            }
 
-
-    def enqueue(self):
-        if not self.isFull:
-            self.queue.append(self.patient_dict)
-            return self.patient
+            self.queue.append(patient_dict)
+            return patient
         else:
             return "Error: The queue is full!"
-        
+
     def dequeue(self):
-        if not self.isEmpty:
-            if self.check_priority_patients:
+        if not self.isEmpty():
+            if self.check_priority_patients():
                 for index in range(0, len(self.queue)):
                     patient = self.queue[index]
-                    if patient.priority == 1:
+                    if patient["priority"] == 1:
                         self.queue.pop(index)
-                        return patient.number
-                    else:
-                        index += 1
+                        return patient["number"]
             else:
                 self.queue.pop(0)
-                return self.queue[0].number
+                return self.queue[0]["number"]
         else:
-            return "Error the queue is empty!"
-            
+            return "Error: the queue is empty!"
 
     def size(self):
         return len(self.queue)
@@ -54,33 +47,33 @@ class HospitalQueue:
         return self.max
 
     def front(self):
-        if not self.isEmpty:
-            if self.check_priority_patients:
+        if not self.isEmpty():
+            if self.check_priority_patients():
                 for index in range(0, len(self.queue)):
                     patient = self.queue[index]
-                    if patient.priority == 1:
-                        return patient.number
+                    if patient["priority"] == 1:
+                        return patient["number"]
             else:
-                return self.queue[0].number
+                return self.queue[0]["number"]
         else:
             return "Error the queue is empty!"
 
 
     def rear(self):
-        if not self.isEmpty:
-            if self.check_priority_patients:
+        if not self.isEmpty():
+            if self.check_priority_patients():
                 for index in reversed(range(0, len(self.queue))):
                     patient = self.queue[index]
-                    if patient.priority == 0:
-                        return patient.number
+                    if patient["priority"] == 0:
+                        return patient["number"]
             else:
-                return self.queue[-1].number
+                return self.queue[-1]["number"]
         else:
             return "Error the queue is empty!"
 
 
     def isFull(self):
-        return True if len(self.queue) == self.max else False
+        return len(self.queue) == self.max
 
     def isEmpty(self):
-        return True if len(self.queue) == 0 else False
+        return len(self.queue) == 0
