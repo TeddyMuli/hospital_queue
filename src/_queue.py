@@ -18,7 +18,7 @@ class HospitalQueue:
         return len(self.queue)
 
     def capacity(self):
-        pass
+        return self.max
 
     def front(self):
         pass
