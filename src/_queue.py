@@ -5,11 +5,18 @@ class HospitalQueue:
         self.patient = patient
         self.queue = []
         self.max = 10
+        self.patient_dict = {
+            "number": self.patient,
+            "priority": self.priority
+        }
 
     def enqueue(self):
         if not self.isFull:
-            pass
-
+            self.queue.append(self.patient_dict)
+            return self.patient
+        else:
+            return "Error: The queue is full!"
+        
     def dequeue(self):
         if not self.isEmpty:
             pass
