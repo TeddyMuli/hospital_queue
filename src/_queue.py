@@ -13,12 +13,12 @@ class HospitalQueue:
 
             if patient_dict["priority"] == 1:
                 last_priority_patient = -1
-                for index in range(len(self.queue)):
+                for index in range(self.size()):
                     if self.queue[index]["priority"] == 1:
                         last_priority_patient = index
 
                 if last_priority_patient != -1:
-                    self.queue.insert(index + 1, patient_dict)
+                    self.queue.insert(last_priority_patient + 1, patient_dict)
                 else:
                     self.queue.insert(0, patient_dict)
             else:
@@ -51,9 +51,22 @@ class HospitalQueue:
             return self.queue[-1]["number"]
         else:
             return "Error the queue is empty!"
+        
+    def printQueue(self):
+        return self.queue
 
     def isFull(self):
         return len(self.queue) == self.max
 
     def isEmpty(self):
         return len(self.queue) == 0
+
+if __name__ == "__main__":
+    queue = HospitalQueue()
+    queue.enqueue(1, 0)
+    queue.enqueue(4, 1)
+    queue.enqueue(5, 1)
+    queue.enqueue(6, 1)
+    #=queue.dequeue()
+    print(f"The element at the front of the queue is {queue.front()}")
+    print(f"Queue: {queue.printQueue()}")
