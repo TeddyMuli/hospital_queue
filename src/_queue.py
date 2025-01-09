@@ -21,7 +21,18 @@ class HospitalQueue:
                 "priority": priority
             }
 
-            self.queue.append(patient_dict)
+            if patient_dict["priority"] == 1:
+                last_priority_patient = -1
+                for index in range(len(self.queue)):
+                    if self.queue[index]["priority"] == 1:
+                        last_priority_patient = index
+
+                if last_priority_patient != -1:
+                    self.queue.insert(index + 1, patient_dict)
+                else:
+                    self.queue.insert(0, patient_dict)
+            else:
+                self.queue.append(patient_dict)
             return patient
         else:
             return "Error: The queue is full!"
