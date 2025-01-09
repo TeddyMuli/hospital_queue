@@ -15,7 +15,7 @@ class HospitalQueue:
             pass
 
     def size(self):
-        pass
+        return len(self.queue)
 
     def capacity(self):
         pass
