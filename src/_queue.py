@@ -7,10 +7,12 @@ class HospitalQueue:
         self.max = 10
 
     def enqueue(self):
-        pass
+        if not self.isFull:
+            pass
 
     def dequeue(self):
-        pass
+        if not self.isEmpty:
+            pass
 
     def size(self):
         pass
