@@ -60,13 +60,3 @@ class HospitalQueue:
 
     def isEmpty(self):
         return len(self.queue) == 0
-
-if __name__ == "__main__":
-    queue = HospitalQueue()
-    queue.enqueue(1, 0)
-    queue.enqueue(4, 1)
-    queue.enqueue(5, 1)
-    queue.enqueue(6, 1)
-    #=queue.dequeue()
-    print(f"The element at the front of the queue is {queue.front()}")
-    print(f"Queue: {queue.printQueue()}")
