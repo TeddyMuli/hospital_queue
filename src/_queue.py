@@ -32,14 +32,19 @@ class HospitalQueue:
         
     def dequeue(self):
         if not self.isEmpty:
-            #index = 0
-            for index in range(0, len(self.queue)):
-                patient = self.queue[index]
-                if patient.priority == 1:
-                    self.queue.pop(index)
-                    return patient.number
-                else:
-                    index += 1
+            if self.check_priority_patients:
+                for index in range(0, len(self.queue)):
+                    patient = self.queue[index]
+                    if patient.priority == 1:
+                        self.queue.pop(index)
+                        return patient.number
+                    else:
+                        index += 1
+            else:
+                return self.queue[0].number
+        else:
+            return "Error the queue is empty!"
+            
 
     def size(self):
         return len(self.queue)
