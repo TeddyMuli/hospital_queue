@@ -4,7 +4,7 @@ from tkinter import messagebox
 class HospitalQueue:
     def __init__(self):
         self.queue = []
-        self.max = 10
+        self.max = 7
 
     def enqueue(self, patient, priority, age):
         if not self.isFull():
@@ -37,7 +37,7 @@ class HospitalQueue:
 
     def dequeue(self):
         if not self.isEmpty():
-            messagebox.showinfo("Info", f"Admitted patient {self.queue[0]['number']}\nNext Patient: {self.queue[1]['number']}")
+            messagebox.showinfo("Info", f"Admitted patient {self.queue[0]['number']}\nNext Patient: {self.queue[1]['number'] if self.size() > 1 else "None"}")
             self.queue.pop(0)
         else:
             messagebox.showwarning("Warning", "The queue is empty!")

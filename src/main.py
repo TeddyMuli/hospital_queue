@@ -11,36 +11,6 @@ class HospitalApp:
         self.root = root
         self.queue = HospitalQueue()
 
-        self.root.title('Hospital Queue')
-        self.root.geometry('800x600')
-
-        self.main_container = tk.Frame(root)
-        self.main_container.pack(fill=tk.BOTH, expand=True)
-
-        self.button_frame = tk.Frame(self.main_container)
-        self.button_frame.pack(side=tk.TOP, pady=10, fill=tk.X)
-
-        self.queue_container = tk.Frame(self.main_container)
-        self.queue_container.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-        
-        self.canvas = tk.Canvas(self.queue_container)
-        self.scrollbar = tk.Scrollbar(self.queue_container, orient="horizontal", command=self.canvas.xview)
-        self.scrollable_frame = tk.Frame(self.canvas)
-        
-        self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-        )
-        
-        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
-        self.canvas.configure(xscrollcommand=self.scrollbar.set)
-
-        self.scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
-        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-
-        self.hospital_image = tk.PhotoImage(file=hospital_image_path)
-        self.person_image = tk.PhotoImage(file=person_image_path)
-        
         self.buttons = [
             { "name": "Add Patient", "command": self.add_patient },
             { "name": "Admit Patient", "command": self.dequeue_patient },
@@ -52,18 +22,32 @@ class HospitalApp:
             { "name": "Empty?", "command": self.queue.showEmpty },
         ]
 
+        self.root.title('Hospital Queue')
+        self.root.geometry('800x600')
+
+        self.hospital_image = tk.PhotoImage(file=hospital_image_path)
+        self.person_image = tk.PhotoImage(file=person_image_path)
+
+        self.hospital_label = tk.Label(root, image=self.hospital_image)
+        self.hospital_label.pack(side=tk.RIGHT, padx=5)
+
+        self.queue_frame = tk.Frame(root)
+        self.queue_frame.pack(side=tk.RIGHT, padx=5, fill=tk.X)
+
+        self.button_frame = tk.Frame(root)
+        self.button_frame.pack(side=tk.TOP, pady=10)
+
         for button in self.buttons:
-            btn = tk.Button(self.button_frame, text=button["name"], command=button["command"])
-            btn.pack(side=tk.LEFT, padx=5)
+            tk.Button(self.button_frame, text=button['name'], command=button['command']).pack(side=tk.LEFT, padx=5)
 
         self.update_queue_display()
 
     def update_queue_display(self):
-        for widget in self.scrollable_frame.winfo_children():
+        for widget in self.queue_frame.winfo_children():
             widget.destroy()
 
         for patient in reversed(self.queue.printQueue()):
-            patient_frame = tk.Frame(self.scrollable_frame)
+            patient_frame = tk.Frame(self.queue_frame)
             patient_frame.pack(side=tk.LEFT, padx=2, pady=(84, 0))
 
             match patient['priority']:
