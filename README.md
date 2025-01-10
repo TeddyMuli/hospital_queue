@@ -20,7 +20,7 @@ This project implements a hospital queue management system using Python and Tkin
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/hospital_queue.git
+    git clone https://github.com/TeddyMuli/hospital_queue.git
     ```
 2. Navigate to the project directory:
     ```sh
