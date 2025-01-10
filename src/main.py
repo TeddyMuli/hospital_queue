@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import tkinter as tk
-from tkinter import simpledialog
+from tkinter import simpledialog, ttk
 from hospital_queue import HospitalQueue
 
 person_image_path = "../assets/person.png"
@@ -39,20 +39,65 @@ class HospitalApp:
             patient_frame = tk.Frame(self.queue_frame)
             patient_frame.pack(side=tk.LEFT, padx=2)
 
-            info_label = tk.Label(patient_frame, text=f"Number: {patient['number']}\nPriority: {patient['priority']}\nAge: {patient['age']}")
+            match patient['priority']:
+                case 0:
+                    priority = "Normal"
+                case 1:
+                    priority = "Serious"
+                case 2:
+                    priority = "Critical"
+
+            info_label = tk.Label(patient_frame, text=f"Number: {patient['number']}\nPriority: {priority}\nAge: {patient['age']}")
             info_label.pack()
 
             patient_label = tk.Label(patient_frame, image=self.person_image)
             patient_label.pack()
 
+    def ask_priority(self):
+        priority_window = tk.Toplevel(self.root)
+        priority_window.title("Select Priority")
+        
+        window_width = 300
+        window_height = 150
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        position_top = int(screen_height / 2 - window_height / 2)
+        position_right = int(screen_width / 2 - window_width / 2)
+        priority_window.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
+
+        tk.Label(priority_window, text="Select patient priority:").pack(pady=10)
+
+        priority_var = tk.StringVar()
+        priority_combobox = ttk.Combobox(priority_window, textvariable=priority_var)
+        priority_combobox['values'] = ('normal', 'serious', 'critical')
+        priority_combobox.pack(pady=10)
+        priority_combobox.current(0)
+
+        def on_select():
+            self.selected_priority = priority_combobox.current()
+            priority_window.destroy()
+
+        select_button = tk.Button(priority_window, text="OK", command=on_select)
+        select_button.pack(pady=10)
+
+        def on_close():
+            self.selected_priority = None
+            priority_window.destroy()
+
+        priority_window.protocol("WM_DELETE_WINDOW", on_close)
+
+        self.root.wait_window(priority_window)
+        return self.selected_priority
+
     def add_patient(self):
-        number = simpledialog.askinteger("Input", "Enter patient number:")
-        priority = simpledialog.askinteger("Input", "Enter patient priority:")
+        number = self.queue.size() + 1
         age = simpledialog.askinteger("Input", "Enter patient age:")
 
-        if number is not None and priority is not None and age is not None:
-            self.queue.enqueue(number, priority, age)
-            self.update_queue_display()
+        if age is not None:
+            priority = self.ask_priority()
+            if priority is not None:
+                self.queue.enqueue(number, priority, age)
+                self.update_queue_display()
 
     def dequeue_patient(self):
         self.queue.dequeue()
