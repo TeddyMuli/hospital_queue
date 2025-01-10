@@ -11,6 +11,17 @@ class HospitalApp:
         self.root = root
         self.queue = HospitalQueue()
 
+        self.buttons = [
+            { "name": "Add Patient", "command": self.queue.enqueue },
+            { "name": "Admit Patient", "command": self.queue.dequeue },
+            { "name": "Size", "command": self.queue.show_size },
+            { "name": "Capacity", "command": self.queue.show_capacity },
+            { "name": "Front Patient", "command": self.queue.front },
+            { "name": "Rear Patient", "command": self.queue.rear },
+            { "name": "Full", "command": self.queue.showFull },
+            { "name": "Empty", "command": self.queue.showEmpty },
+        ]
+
         self.root.title('Hospital Queue')
         self.root.geometry('800x600')
 
@@ -23,11 +34,12 @@ class HospitalApp:
         self.queue_frame = tk.Frame(root)
         self.queue_frame.pack(side=tk.RIGHT, padx=5, fill=tk.X)
 
-        self.add_patient_button = tk.Button(root, text="Add Patient", command=self.add_patient)
-        self.add_patient_button.pack(side=tk.TOP, pady=10)
+        self.button_frame = tk.Frame(root)
+        self.button_frame.pack(side=tk.TOP, pady=10)
 
-        self.dequeue_patient_button = tk.Button(root, text="Dequeue Patient", command=self.dequeue_patient)
-        self.dequeue_patient_button.pack(side=tk.TOP, pady=10)
+        for button in self.buttons:
+            self.add_patient_button = tk.Button(self.button_frame, text=button['name'], command=button['command'])
+            self.add_patient_button.pack(side=tk.LEFT, padx=5)
 
         self.update_queue_display()
 
