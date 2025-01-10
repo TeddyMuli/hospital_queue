@@ -12,8 +12,8 @@ class HospitalApp:
         self.queue = HospitalQueue()
 
         self.buttons = [
-            { "name": "Add Patient", "command": self.queue.enqueue },
-            { "name": "Admit Patient", "command": self.queue.dequeue },
+            { "name": "Add Patient", "command": self.add_patient },
+            { "name": "Admit Patient", "command": self.dequeue_patient },
             { "name": "Size", "command": self.queue.show_size },
             { "name": "Capacity", "command": self.queue.show_capacity },
             { "name": "Front Patient", "command": self.queue.front },
