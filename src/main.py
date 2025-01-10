@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+Teddy Muli
+SCT211-0023/2022
+"""
 import tkinter as tk
 from tkinter import simpledialog, ttk
 from hospital_queue import HospitalQueue
@@ -25,30 +29,53 @@ class HospitalApp:
         self.root.title('Hospital Queue')
         self.root.geometry('800x600')
 
-        self.hospital_image = tk.PhotoImage(file=hospital_image_path)
-        self.person_image = tk.PhotoImage(file=person_image_path)
+        self.main_container = tk.Frame(root)
+        self.main_container.pack(expand=True, fill=tk.BOTH)
 
-        self.hospital_label = tk.Label(root, image=self.hospital_image)
-        self.hospital_label.pack(side=tk.RIGHT, padx=5)
-
-        self.queue_frame = tk.Frame(root)
-        self.queue_frame.pack(side=tk.RIGHT, padx=5, fill=tk.X)
-
-        self.button_frame = tk.Frame(root)
-        self.button_frame.pack(side=tk.TOP, pady=10)
+        self.button_frame = tk.Frame(self.main_container)
+        self.button_frame.pack(side=tk.TOP, pady=10, fill=tk.X)
 
         for button in self.buttons:
             tk.Button(self.button_frame, text=button['name'], command=button['command']).pack(side=tk.LEFT, padx=5)
 
+        self.canvas = tk.Canvas(self.main_container)
+        self.scrollbar = ttk.Scrollbar(self.main_container, orient=tk.HORIZONTAL, command=self.canvas.xview)
+        self.queue_frame = tk.Frame(self.canvas)
+
+        self.canvas.configure(xscrollcommand=self.scrollbar.set)
+        
+        self.scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        self.canvas_frame = self.canvas.create_window((0, 0), window=self.queue_frame, anchor=tk.NW)
+
+        self.hospital_image = tk.PhotoImage(file=hospital_image_path)
+        self.person_image = tk.PhotoImage(file=person_image_path)
+
+        self.hospital_label = tk.Label(self.queue_frame, image=self.hospital_image)
+        self.hospital_label.pack(side=tk.RIGHT, padx=5)
+
+        self.queue_frame.bind('<Configure>', self.on_frame_configure)
+        self.canvas.bind('<Configure>', self.on_canvas_configure)
+
+        self.queue_frame.pack(expand=True, fill=tk.BOTH)
+
         self.update_queue_display()
+
+    def on_frame_configure(self, event=None):
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+    def on_canvas_configure(self, event):
+        self.canvas.itemconfig(self.canvas_frame, width=event.width)
 
     def update_queue_display(self):
         for widget in self.queue_frame.winfo_children():
-            widget.destroy()
+            if widget != self.hospital_label:
+                widget.destroy()
 
-        for patient in reversed(self.queue.printQueue()):
+        for patient in (self.queue.printQueue()):
             patient_frame = tk.Frame(self.queue_frame)
-            patient_frame.pack(side=tk.LEFT, padx=2, pady=(84, 0))
+            patient_frame.pack(side=tk.RIGHT, padx=2, pady=(84, 0))
 
             match patient['priority']:
                 case 0:
@@ -63,6 +90,8 @@ class HospitalApp:
 
             patient_label = tk.Label(patient_frame, image=self.person_image)
             patient_label.pack()
+
+        self.on_frame_configure()
 
     def ask_priority(self):
         priority_window = tk.Toplevel(self.root)
