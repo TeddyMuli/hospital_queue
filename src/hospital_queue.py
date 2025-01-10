@@ -37,7 +37,7 @@ class HospitalQueue:
 
     def dequeue(self):
         if not self.isEmpty():
-            messagebox.showinfo("Info", f"Admitted patient {self.queue[0]['number']}\nNext Patient: {self.queue[1]['number'] if self.size() > 1 else "None"}")
+            messagebox.showinfo("Info", f"Admitted patient: {self.queue[0]['number']}\nNext Patient: {self.queue[1]['number'] if self.size() > 1 else 'None'}")
             self.queue.pop(0)
         else:
             messagebox.showwarning("Warning", "The queue is empty!")
