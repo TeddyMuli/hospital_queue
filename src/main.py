@@ -37,7 +37,7 @@ class HospitalApp:
 
         for patient in reversed(self.queue.printQueue()):
             patient_frame = tk.Frame(self.queue_frame)
-            patient_frame.pack(side=tk.LEFT, padx=2)
+            patient_frame.pack(side=tk.LEFT, padx=2, pady=(84, 0))
 
             match patient['priority']:
                 case 0:
