@@ -4,21 +4,25 @@ class HospitalQueue:
         self.queue = []
         self.max = 10
 
-    def enqueue(self, patient, priority):
+    def enqueue(self, patient, priority, age):
         if not self.isFull():
             patient_dict = {
                 "number": patient,
-                "priority": priority
+                "priority": priority,
+                "age": age
             }
 
-            if self.size() > 0:
+            if not self.isEmpty():
                 insert_at = -1
                 for index in range(self.size()):
                     if patient_dict['priority'] > self.queue[index]['priority']:
                         insert_at = index
                         break
                     elif patient_dict['priority'] == self.queue[index]['priority']:
-                        insert_at = index + 1
+                        if (self.queue[index]['age'] < 70 or self.queue[index]['age'] < 5) and (patient_dict['age'] > 70 or patient_dict['age'] < 5):
+                            insert_at = index
+                        else:
+                            insert_at = index + 1
                         break
 
                 self.queue.insert(insert_at, patient_dict)
@@ -46,7 +50,7 @@ class HospitalQueue:
         if not self.isEmpty():
             return self.queue[0]["number"]
         else:
-            return "Error the queue is empty!"
+            return "Error: the queue is empty!"
 
     def rear(self):
         if not self.isEmpty():
@@ -65,10 +69,10 @@ class HospitalQueue:
 
 if __name__ == "__main__":
     queue = HospitalQueue()
-    queue.enqueue(1, 0)
-    queue.enqueue(2, 1)
-    queue.enqueue(3, 3)
-    queue.enqueue(4, 0)
-    queue.enqueue(5, 2)
-    queue.enqueue(6, 6)
+    queue.enqueue(1, 0, 23)
+    queue.enqueue(2, 1, 16)
+    queue.enqueue(3, 3, 43)
+    queue.enqueue(4, 0, 71)
+    queue.enqueue(5, 2, 2)
+    queue.enqueue(6, 6, 45)
     print(f"Queue: {queue.printQueue()}")
