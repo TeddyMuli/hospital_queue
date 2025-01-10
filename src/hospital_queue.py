@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+Teddy Muli
+SCT211-0023/2022
+"""
 from tkinter import messagebox
 
 class HospitalQueue:
