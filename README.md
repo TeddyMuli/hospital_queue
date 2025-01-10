@@ -38,7 +38,7 @@ This project implements a hospital queue management system using Python and Tkin
 
 ## File Descriptions
 
-### 
+### src/main.py
 
 This file contains the main application code for the hospital queue management system. It uses Tkinter to create a graphical user interface (GUI) for interacting with the queue.
 
@@ -50,7 +50,7 @@ This file contains the main application code for the hospital queue management s
 - **add_patient Method**: Adds a new patient to the queue.
 - **dequeue_patient Method**: Admits the patient at the front of the queue.
 
-### 
+### src/hospital_queue.py
 
 This file contains the  class, which implements the queue management logic.
 
