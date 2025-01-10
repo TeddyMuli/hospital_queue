@@ -18,8 +18,8 @@ class HospitalApp:
             { "name": "Capacity", "command": self.queue.show_capacity },
             { "name": "Front Patient", "command": self.queue.front },
             { "name": "Rear Patient", "command": self.queue.rear },
-            { "name": "Full", "command": self.queue.showFull },
-            { "name": "Empty", "command": self.queue.showEmpty },
+            { "name": "Full?", "command": self.queue.showFull },
+            { "name": "Empty?", "command": self.queue.showEmpty },
         ]
 
         self.root.title('Hospital Queue')
@@ -38,8 +38,7 @@ class HospitalApp:
         self.button_frame.pack(side=tk.TOP, pady=10)
 
         for button in self.buttons:
-            self.add_patient_button = tk.Button(self.button_frame, text=button['name'], command=button['command'])
-            self.add_patient_button.pack(side=tk.LEFT, padx=5)
+            tk.Button(self.button_frame, text=button['name'], command=button['command']).pack(side=tk.LEFT, padx=5)
 
         self.update_queue_display()
 

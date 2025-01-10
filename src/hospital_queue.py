@@ -15,19 +15,19 @@ class HospitalQueue:
             }
 
             if not self.isEmpty():
-                insert_at = -1
                 for index in range(self.size()):
                     if patient_dict['priority'] > self.queue[index]['priority']:
+                        print(f"First if called for: {patient_dict['number']}")
                         insert_at = index
                         break
                     elif patient_dict['priority'] == self.queue[index]['priority']:
-                        if (self.queue[index]['age'] < 70 or self.queue[index]['age'] > 5) and (patient_dict['age'] > 70 or patient_dict['age'] < 5):
+                        if (self.queue[index]['age'] < 60 or self.queue[index]['age'] > 5) and (patient_dict['age'] > 60 or patient_dict['age'] < 5):
                             insert_at = index
                         else:
                             insert_at = index + 1
-                        break
                     else:
                         insert_at = self.size()
+
                 self.queue.insert(insert_at, patient_dict)
             else:
                 self.queue.append(patient_dict)
@@ -88,6 +88,6 @@ if __name__ == "__main__":
     queue.enqueue(2, 1, 89)
     queue.enqueue(3, 2, 34)
     queue.enqueue(4, 0, 12)
-    #queue.enqueue(5, 2, 2)
-    #queue.enqueue(6, 6, 45)
+    queue.enqueue(5, 2, 2)
+    queue.enqueue(6, 6, 45)
     print(f"Queue: {queue.printQueue()}")
