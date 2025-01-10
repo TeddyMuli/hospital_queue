@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 class HospitalQueue:
     def __init__(self):
         self.queue = []
