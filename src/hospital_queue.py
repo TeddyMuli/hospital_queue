@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from tkinter import messagebox
+
 class HospitalQueue:
     def __init__(self):
         self.queue = []
@@ -29,43 +31,55 @@ class HospitalQueue:
             else:
                 self.queue.append(patient_dict)
 
-            return patient_dict
         else:
-            return "Error: The queue is full!"
+            messagebox.showwarning("Warning" ,"The queue is full!")
 
     def dequeue(self):
         if not self.isEmpty():
+            messagebox.showinfo("Info", f"Admitted patient {self.queue[0]['number']}\nNext Patient: {self.queue[1]['number']}")
             self.queue.pop(0)
-            return self.queue[0]["number"]
         else:
-            return "Error: the queue is empty!"
+            messagebox.showwarning("Warning", "The queue is empty!")
 
     def size(self):
         return len(self.queue)
+    
+    def show_size(self):
+        messagebox.showinfo("Size", f'The size of the queue: {self.size()}')
 
     def capacity(self):
         return self.max
+    
+    def show_capacity(self):
+        messagebox.showinfo("Capacity", f'The capacity of the queue: {self.capacity()}')
 
     def front(self):
         if not self.isEmpty():
-            return self.queue[0]["number"]
+            messagebox.showinfo("Front", f'The front patient is {self.queue[0]["number"]}')
         else:
-            return "Error: the queue is empty!"
+            messagebox.showwarning("Warning", "The queue is empty!")
 
     def rear(self):
         if not self.isEmpty():
-            return self.queue[-1]["number"]
+            messagebox.showinfo("Rear", f'The front patient is {self.queue[-1]["number"]}')
         else:
-            return "Error the queue is empty!"
-        
+            messagebox.showwarning("Warning", "The queue is empty!")
+
     def printQueue(self):
         return self.queue
 
     def isFull(self):
         return len(self.queue) == self.max
+    
+    def showFull(self):
+        messagebox.showinfo("Full", f'The queue is {"full" if self.isFull() else "not full"}')
 
+    
     def isEmpty(self):
         return len(self.queue) == 0
+    
+    def showEmpty(self):
+        messagebox.showinfo("Empty", f'The queue is {"empty" if self.isEmpty() else "not empty"}')
 
 if __name__ == "__main__":
     queue = HospitalQueue()
