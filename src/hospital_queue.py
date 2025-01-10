@@ -4,7 +4,7 @@ from tkinter import messagebox
 class HospitalQueue:
     def __init__(self):
         self.queue = []
-        self.max = 7
+        self.max = 10
 
     def enqueue(self, patient, priority, age):
         if not self.isFull():
